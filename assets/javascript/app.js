@@ -17,7 +17,7 @@ gameContent = {
     ["Penalty when a defensive player crosses the line of scrimmage and makes contact with an opponent before the ball is snapped?" , "Penalty when an interior lineman on the offensive team moves prior to the snap of the ball, or when any offensive player makes a quick, abrupt movement prior to the snap of the ball.", "When any part of a player’s body is beyond the line of scrimmage or free kick line when the ball is put into play." ,"Penalty when an offensive player uses his hands, arms, or other parts of his body to prevent a defensive player from tackling the ball carrier.", "Penalty when a defensive player make contact with the intended receiver before the ball arrives, thus restricting his opportunity to catch the forward pass.", "When one player tackles another by grabbing inside their shoulder pads (or jersey) from behind and yanking them down.", "Penatly that is considered illegal, flagrant foul considered risky to the health of another player.", "An action which delays the game", "Penalty for a player using his helmet to hit into another player’s helmet.", "Penalty for a defensive player makes any contact with the punter, provided the defensive player hasn’t touched the kicked ball before contact."]],
 
     answers : [["Tom Brady", "Cam Newton", "Baker Mayfield", "Peyton Manning", "Drew Brees", "Jim Plunkett", "Aaron Rodgers", "Colin Kaepernick", "Jimmy Garoppolo", "Joe Montana", "Michael Vick", "Johnny Unitas", "Steve Young"],
-    ["Rams", "Redskins", "Steelers", "Titans", "Cowboys", "Patriots", "Giants", "Eagles" , "Falcons", "Dolphins", "Packers", "49ers","Cowboys"],
+    ["Rams", "Redskins", "Steelers", "Titans", "Cowboys", "Patriots", "Giants", "Eagles" , "Falcons", "Dolphins", "Packers", "49ers","Panthers"],
     ["Encroachment", "False Start", "Offside", "Holding", "Pass Interference", "Horse Collar Tackle", "Personal Foul", "Delay of Game", "Helmet to Helmet Collision", "Roughing the Kicker", "Onside", "Flagrant Foul", "Touchback"],
     ],
 
@@ -94,8 +94,8 @@ checkAnswer: function (selection) {
         $("#lose").show();
         $("#lose").append("<p> The answer is " + answer);
         correctanswerShow = setTimeout(gameContent.nextQuestion, 1*1000)
-        gameContent.incorrectCount++;
-        gameContent.endGame();
+        this.incorrectCount++;
+        this.endGame();
     }
 
 
@@ -131,6 +131,15 @@ endGame: function() {
         $("#gameEnd").append("<p>Correct: " + this.correctCount + "</p>")
         $("#gameEnd").append("<p>Incorrect: " + this.incorrectCount + "</p>")
         $("#gameEnd").append("<p>Overall Percent: " + 100*this.correctCount/30 + "%</p>")
+        // resetting arrays back to their original state to rerun
+        for (i=0; i<3; i++) {
+            while (this.answers[i].length !== 0) {
+                this.usedAnswers[i].push(this.answers[i].pop());
+            }
+            this.answers[i]=this.usedAnswers[i]
+            this.questions[i]=this.usedQuestions[i]
+            }
+        
         $("#gameEnd").show();
     }
 }
@@ -141,6 +150,9 @@ $(document).ready(function() {
 // $(document).on("click",".answer", function () {
     gameContent.questionGenerator();
     console.log(gameContent.answer)
+    $(document).on("click",".answer", function () {
+        gameContent.checkAnswer(this.id);
+        }); 
     $(document).on("click",".answer", function () {
         gameContent.checkAnswer(this.id);
         });  
