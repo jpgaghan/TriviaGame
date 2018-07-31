@@ -60,8 +60,9 @@ questionGenerator: function() {
 },
 
 time: function() {
-    console.log(intervalId)
+    if(!$("#startpicture,#gameend").is(':visible')) {
     gameContent.currentTime--;
+};
     if (gameContent.currentTime===0) {
         clearInterval(intervalId)
     }
@@ -136,15 +137,17 @@ endGame: function() {
         // resetting arrays back to their original state to rerun
         for (i=0; i<3; i++) {
             while (this.answers[i].length !== 0) {
-                this.usedAnswers[i].push(this.answers[i ].pop());
+                this.usedAnswers[i].push(this.answers[i].pop());
             }
             this.answers[i]=this.usedAnswers[i]
             this.questions[i]=this.usedQuestions[i]
             }
-        
+        $(".spacer").css("height", "90px")
         $("#gameend").show();
         clearInterval(intervalId);
-        clearTimeout(nextpregunta);
+        if (nextpregunta !== undefined) {
+            clearTimeout(nextpregunta);
+        }
     }
     else {this.nextQuestion}
 }
@@ -166,8 +169,11 @@ $(document).ready(function() {
     $(document).on("click","#reset", function () {
         $("#gameend").hide();
         $("#gameend p").remove();
+        $(".spacer").css("height", "175px")
         gameContent.questionGenerator();
-        $(".spacer").css("height", "125px")
+        gameContent.renderHtml();
+        gameContent.usedAnswers= [[],[],[]];
+        gameContent.usedQuestions = [[],[],[]];
         $("#quiz").show();
     });
 });
