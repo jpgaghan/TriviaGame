@@ -148,13 +148,16 @@ endGame: function() {
 
 $(document).ready(function() {
 // $(document).on("click",".answer", function () {
-    gameContent.questionGenerator();
+    
     console.log(gameContent.answer)
     $(document).on("click",".answer", function () {
+        gameContent.questionGenerator();
         gameContent.checkAnswer(this.id);
         }); 
-    $(document).on("click",".answer", function () {
-        gameContent.checkAnswer(this.id);
+    $(document).on("click","#startpicture", function () {
+        gameContent.questionGenerator();
+        $("#startpicture").hide();
+        $("#quiz").show();
         });  
 });
 
