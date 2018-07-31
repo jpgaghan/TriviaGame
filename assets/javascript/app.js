@@ -1,5 +1,6 @@
 var answer = ""
 var question = ""
+var intervalId;
 gameContent = {
     usedQuestions : [[],[],[]],
     usedAnswers : [[],[],[]],
@@ -24,9 +25,9 @@ gameContent = {
 questionGenerator: function() {
     // setting time to answer the question
     
-    this.currentTime = 7;
+    gameContent.currentTime = 7;
     questionTimer = setTimeout(gameContent.timeUp, 1*1000);
-    interval = setInterval(gameContent.time, 1000);
+    intervalId = setInterval(gameContent.time, 1000);
     // generating question and answer
     questioncategoryIndex = ""
     while (questioncategoryIndex === "") {
@@ -45,6 +46,7 @@ questionGenerator: function() {
     this.answers[questioncategoryIndex].splice(questionIndex,1);
     this.usedAnswers[questioncategoryIndex].push(answer);
     this.questionOptions.push(answer);
+
     // creates 3 unique random wrong answers from the answers left in the answers array
     while (this.questionOptions.length < 4) {
         index=Math.floor(Math.random()*this.answers[questioncategoryIndex].length)
@@ -58,9 +60,10 @@ questionGenerator: function() {
 },
 
 time: function() {
+    console.log(intervalId)
     gameContent.currentTime--;
     if (gameContent.currentTime===0) {
-        clearInterval(interval)
+        clearInterval(intervalId)
     }
 },
 
@@ -83,25 +86,25 @@ checkAnswer: function (selection) {
     console.log(document.getElementById(selection).textContent)
     if (answer === document.getElementById(selection).textContent) {
         $("#win").show();
-        $("#win").append("<p> The answer is " + answer);
+        $(".win").append("<p> The answer is " + answer);
         correctanswerShow = setTimeout(gameContent.nextQuestion, 1*1000)
         this.correctCount++
-        this.endGame();
+        gameContent.endGame();
     } 
 
     else {
         $("#quiz").hide();
         $("#lose").show();
-        $("#lose").append("<p> The answer is " + answer);
+        $(".lose").append("<p> The answer is " + answer);
         correctanswerShow = setTimeout(gameContent.nextQuestion, 1*1000)
         this.incorrectCount++;
-        this.endGame();
+        gameContent.endGame();
     }
 
 
 },
 nextQuestion: function() {
-    $("#win p,#lose p,#timeup p").remove();
+    $(".win p,.lose p,.timeup p").remove();
     $("#win,#lose,#timeup").hide();
     gameContent.questionGenerator();
     $("#quiz").show();
@@ -111,8 +114,8 @@ nextQuestion: function() {
 timeUp: function() {
         $("#quiz").hide();
         $("#timeup").show();
-        $("#timeup").append("<p> The answer is " + answer);
-        setTimeout(gameContent.nextQuestion, 1*1000)
+        $(".timeup").append("<p> The answer is " + answer);
+        nextpregunta = setTimeout(gameContent.nextQuestion, 1*1000)
         gameContent.incorrectCount++;
         gameContent.endGame();
 },
@@ -125,40 +128,48 @@ endGame: function() {
         questionsLeft =this.questions[i].length + questionsLeft;  
         }
     if (questionsLeft === 0) {
-        clearTimeout(correctanswerShow)
+        clearTimeout(correctanswerShow);
         $("#win,#lose,#timeup").hide();
-        $("#gameEnd").append("<h1>Your Results</h1>");
-        $("#gameEnd").append("<p>Correct: " + this.correctCount + "</p>")
-        $("#gameEnd").append("<p>Incorrect: " + this.incorrectCount + "</p>")
-        $("#gameEnd").append("<p>Overall Percent: " + 100*this.correctCount/30 + "%</p>")
+        $("#middle").append("<p>Correct: " + this.correctCount + "</p>")
+        $("#middle").append("<p>Incorrect: " + this.incorrectCount + "</p>")
+        $(".leader").append("<p>Overall Percent: " + (100*this.correctCount/30).toFixed(2) + "%</p>")
         // resetting arrays back to their original state to rerun
         for (i=0; i<3; i++) {
             while (this.answers[i].length !== 0) {
-                this.usedAnswers[i].push(this.answers[i].pop());
+                this.usedAnswers[i].push(this.answers[i ].pop());
             }
             this.answers[i]=this.usedAnswers[i]
             this.questions[i]=this.usedQuestions[i]
             }
         
-        $("#gameEnd").show();
+        $("#gameend").show();
+        clearInterval(intervalId);
+        clearTimeout(nextpregunta);
     }
+    else {this.nextQuestion}
 }
 }
 
 
 $(document).ready(function() {
 // $(document).on("click",".answer", function () {
-    
     console.log(gameContent.answer)
     $(document).on("click",".answer", function () {
-        gameContent.questionGenerator();
         gameContent.checkAnswer(this.id);
         }); 
     $(document).on("click","#startpicture", function () {
         gameContent.questionGenerator();
         $("#startpicture").hide();
+        $(".spacer").css("height", "175px")
         $("#quiz").show();
         });  
+    $(document).on("click","#reset", function () {
+        $("#gameend").hide();
+        $("#gameend p").remove();
+        gameContent.questionGenerator();
+        $(".spacer").css("height", "125px")
+        $("#quiz").show();
+    });
 });
 
 

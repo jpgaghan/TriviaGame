@@ -24,15 +24,15 @@
 </head>
 
 <body>
-    <div class = "container">
+    <div class="container">
         <div class="spacer row"></div>
         <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                    <div id="startpicture">
-                        <h2>Click picture to start!</h2>
-                            <img src="assets/images/start.jpeg" alt="Panthers" class="img-thumbnail">
-                        </div>  
+                <div id="startpicture">
+                    <h2>Click picture to start!</h2>
+                    <img src="assets/images/start.jpeg" alt="Panthers" class="img-thumbnail">
+                </div>
                 <div id="quiz">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
@@ -48,15 +48,40 @@
                     </div>
                 </div>
                 <div id="win" style="display: none;">
-                    <h1>You are correct!</h1>
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">
+                            <h1>You are correct!</h1>
+                        </div>
+                        <img class="card-img-top" src="assets/images/start.jpeg" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
                 </div>
-                <div id="lose" style="display: none;">
+                <div id="lose">
                     <h1>You are wrong!</h1>
                 </div>
-                <div id="timeup" style="display: none;">
-                    <h1>Your time is up!</h1>
+                <div id="timeup">
+
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">
+                            <h1>Your time is up!</h1>
+                        </div>
+                        <img class="card-img-top" src="assets/images/start.jpeg" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text timeup"></p>
+                        </div>
+                    </div>
                 </div>
-                <div style="display: none;"id="gameEnd"></div>
+                <div id="gameend" class="jumbotron">
+                    <h1 class="display-4">Your Results!</h1>
+                    <span class="lead leader"></span>
+                    <hr class="my-4">
+                    <span id="middle"></span>
+                    <p class="lead">
+                        <a id="reset" class="btn btn-primary btn-lg" role="button">Reset</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

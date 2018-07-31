@@ -1,18 +1,7 @@
-#win{
+#win,#timeup,#lose,#quiz,#gameend{
     display: none;
 }
 
-#timeup{
-    display: none;
-}
-
-#lose{
-    display: none;
-}
-
-#quiz{
-    display: none;
-}
 
 .spacer{
     height: 250px;
