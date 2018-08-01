@@ -18,9 +18,10 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
-    <script src="assets/javascript/app.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="api.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
 </head>
 
 <body>
@@ -53,7 +54,7 @@
                         <div class="card-header text-center">
                             <h1>Correct!</h1>
                         </div>
-                        <img class="card-img-top" src="assets/images/start.jpeg" alt="Card image cap">
+                        <div class="dynamicimage"></div>
                         <div class="card-body">
                             <p class="card-text win text-center"></p>
                         </div>
@@ -65,7 +66,7 @@
                                 <div class="card-header text-center">
                                     <h1>Wrong!</h1>
                                 </div>
-                                <img class="card-img-top" src="assets/images/start.jpeg" alt="Card image cap">
+                                <div class="dynamicimage"></div>
                                 <div class="card-body">
                                     <p class="card-text lose text-center"></p>
                                 </div>
@@ -78,7 +79,7 @@
                         <div class="card-header text-center">
                             <h1>Time's up!</h1>
                         </div>
-                        <img class="card-img-top" src="assets/images/start.jpeg" alt="Card image cap">
+                        <div class="dynamicimage"></div>
                         <div class="card-body">
                             <p class="card-text timeup text-center"></p>
                         </div>

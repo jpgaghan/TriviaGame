@@ -27,7 +27,7 @@ questionGenerator: function() {
     // setting time to answer the question
     
     gameContent.currentTime = 7;
-    questionTimer = setTimeout(gameContent.timeUp, 1*1000);
+    questionTimer = setTimeout(gameContent.timeUp, 7 * 1000);
     intervalId = setInterval(gameContent.time, 1000);
     // generating question and answer
     questioncategoryIndex = ""
@@ -39,12 +39,10 @@ questionGenerator: function() {
     }
     questionIndex = Math.floor(Math.random()*this.questions[questioncategoryIndex].length);
     question = this.questions[questioncategoryIndex][questionIndex];
-    console.log(this.question)
     this.questions[questioncategoryIndex].splice(questionIndex,1);
     this.usedQuestions[questioncategoryIndex].push(question);
     answer = this.answers[questioncategoryIndex][questionIndex];
     gameContent.apiimgCall();
-    console.log(answer);
     this.answers[questioncategoryIndex].splice(questionIndex,1);
     this.usedAnswers[questioncategoryIndex].push(answer);
     this.questionOptions.push(answer);
@@ -56,7 +54,6 @@ questionGenerator: function() {
             this.questionOptions.push(this.answers[questioncategoryIndex][index])
         }
     }
-    console.log(this.questionOptions)
     this.renderHtml();
     
 },
@@ -86,11 +83,10 @@ checkAnswer: function (selection) {
     if (selection===undefined) {
         selection="quiz"
     }
-    console.log(document.getElementById(selection).textContent)
     if (answer === document.getElementById(selection).textContent) {
         $("#win").show();
         $(".win").append("<p> The answer is " + answer);
-        correctanswerShow = setTimeout(gameContent.nextQuestion, 1*1000)
+        correctanswerShow = setTimeout(gameContent.nextQuestion, 3*1000)
         this.correctCount++
         gameContent.endGame();
     } 
@@ -99,7 +95,7 @@ checkAnswer: function (selection) {
         $("#quiz").hide();
         $("#lose").show();
         $(".lose").append("<p> The answer is " + answer);
-        correctanswerShow = setTimeout(gameContent.nextQuestion, 1*1000)
+        correctanswerShow = setTimeout(gameContent.nextQuestion, 3*1000)
         this.incorrectCount++;
         gameContent.endGame();
     }
@@ -118,19 +114,18 @@ timeUp: function() {
         $("#quiz").hide();
         $("#timeup").show();
         $(".timeup").append("<p> The answer is " + answer);
-        nextpregunta = setTimeout(gameContent.nextQuestion, 1*1000)
+        nextpregunta = setTimeout(gameContent.nextQuestion, 3*1000)
         gameContent.incorrectCount++;
         gameContent.endGame();
 },
 apiimgCall: function() {
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + answer + "+nfl&total_count=1&tag&api_key=dc6zaTOxFJmzC";
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + answer + "+nfl&total_count=1&images&tag&api_key=dc6zaTOxFJmzC";
         $.get(queryURL).then(
             function(response) {
               Img = new Image();
-              Img.src = response.data[0].url
+              Img.src = response.data[0].images.fixed_height.url
               Img.classList.add("card-img-top")
-              console.log(Img)
-              $(".dynamicimage").html(Img);
+              $(".dynamicimage").html(Img)
             }
           );
 
@@ -171,7 +166,6 @@ endGame: function() {
 
 $(document).ready(function() {
 // $(document).on("click",".answer", function () {
-    console.log(gameContent.answer)
     $(document).on("click",".answer", function () {
         gameContent.checkAnswer(this.id);
         }); 
